@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.RegistrationController">
+    <center>
+        <VBox alignment="BASELINE_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" />
+                <TextField fx:id="firstNameField" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" />
+                <TextField fx:id="lastNameField" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                <TextField fx:id="emailField" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
+                <TextField fx:id="phoneNumberField" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Teacher" />
+                <CheckBox fx:id="isTeacherCheckBox" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+                <TextField fx:id="usernameField" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+                <TextField fx:id="passwordField" />
+                <Button mnemonicParsing="false" fx:id="registerButton" text="Register" onAction="#handleRegister" defaultButton="true"/>
+                <Button mnemonicParsing="false" fx:id="backToLoginButton" text="Back to Login" onAction="#handleBackToLogin" />
+            </children>
+            <BorderPane.margin>
+                <Insets top="10.0" />
+            </BorderPane.margin>
+        </VBox>
+    </center>
+    <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Register" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="22.0" />
+            </font>
+            <BorderPane.margin>
+                <Insets top="10.0" />
+            </BorderPane.margin>
+        </Text>
+    </top>
+</BorderPane>

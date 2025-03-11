@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.EventHomeController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" onMousePressed="#homePage" text="Home" HBox.hgrow="NEVER">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#browsePage" onMousePressed="#browsePage" text="Browse">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onMousePressed="#settingsPage" text="Settings">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onMousePressed="#handleLogout" text="Logout" HBox.hgrow="NEVER">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="USER" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="600.0" spacing="5.0">
+            <children>
+
+                <!-- My Events Text -->
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Events :" />
+                <Text fx:id="myEventsCountLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            </children>
+        </HBox>
+        <TabPane prefHeight="477.0" prefWidth="1142.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="My Events">
+                    <content>
+                        <CardPane fx:id="MyEventsCardPane" prefHeight="685.0" prefWidth="1531.0">
+                        </CardPane>
+                    </content>
+                </Tab>
+                <Tab text="Created Events">
+                    <content>
+                        <CardPane fx:id="CreatedEventsCardPane">
+                        </CardPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleCreateEvent" prefHeight="25.0" prefWidth="770.0" text="Button" />
+        </items>
+      </ToolBar>
+    </children>
+</VBox>
