@@ -24,11 +24,33 @@ public class MainApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    public static void showBrowsePage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementbrowsetest.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        primaryStage.setTitle("Event management home");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
 
     public static void showRegistrationScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementregistration.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         primaryStage.setTitle("Register");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    public static void showSettings() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/settings.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        primaryStage.setTitle("Settings");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    public static void showChangeInfoPage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/changeinfo.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        primaryStage.setTitle("Change User Info");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

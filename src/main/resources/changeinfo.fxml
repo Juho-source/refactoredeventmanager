@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.ChangeInfoController" stylesheets="@Styles.css">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Button text="Back to Settings" onAction="#handleBackToSettings"/>
+            </children>
+        </HBox>
+        <VBox spacing="5">
+        <Label text="First Name"/>
+        <TextField fx:id="firstNameField" promptText="First Name"/>
+            <Label text="Last Name"/>
+        <TextField fx:id="lastNameField" promptText="Last Name"/>
+            <Label text="Email"/>
+        <TextField fx:id="emailField" promptText="Email"/>
+            <Label text="Phone Number"/>
+        <TextField fx:id="phoneNumberField" promptText="Phone Number"/>
+        <Button text="Save Changes" onAction="#handleSaveChanges"/>
+        </VBox>
+    </children>
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+</VBox>

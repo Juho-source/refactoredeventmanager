@@ -3,6 +3,7 @@ package org.example.sep_projecta;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ public class Event {
     @JoinColumn(name = "creatorID")
     private User createdBy;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Attendance> attendances = new HashSet<>();
 
     // Getters and setters

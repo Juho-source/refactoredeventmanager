@@ -13,6 +13,7 @@ public class UserDao {
     // Static field to store the current user's id.
     private static int currentUserId = 0;
 
+
     public static void setCurrentUserId(int userId) {
         currentUserId = userId;
     }
@@ -64,12 +65,20 @@ public class UserDao {
             return session.createQuery("from User", User.class).list();
         }
     }
-
-    // Delete a user.
+    // This removes the user from createdBy and attendance and then deletes the user
     public void deleteUser(User user) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
+            List<Attendance> attendances = session.createQuery("from Attendance where user = :user", Attendance.class).setParameter("user", user).list();
+            for (Attendance attendance : attendances) {
+                session.remove(attendance);
+            }
+            List<Event> events = session.createQuery("from Event where createdBy = :user", Event.class).setParameter("user", user).list();
+            for (Event event : events) {
+                event.setCreatedBy(null);
+                session.update(event);
+            }
             session.remove(user);
             transaction.commit();
         } catch (Exception e) {
@@ -124,6 +133,13 @@ public class UserDao {
         return false;
     }
 
+    public boolean checkIfTeacher(int userId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            User user = session.get(User.class, userId);
+            return user.isTeacher();
+        }
+    }
+
     // Check if a username already exists.
     public boolean usernameExists(String username) {
         return getUserByUsername(username) != null;
@@ -148,4 +164,5 @@ public class UserDao {
         }
         return success;
     }
+
 }

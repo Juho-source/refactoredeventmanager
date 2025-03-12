@@ -89,6 +89,14 @@ public class EventController {
         searchField.textProperty().addListener((obs, oldVal, newVal) -> searchEvents());
         datePicker.valueProperty().addListener((obs, oldVal, newVal) -> searchEvents());
     }
+    @FXML
+    private void handleSettings(){
+        try {
+            MainApplication.showSettings();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
     private void attendEvent(MouseEvent event) {

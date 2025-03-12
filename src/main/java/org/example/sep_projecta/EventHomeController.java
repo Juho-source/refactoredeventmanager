@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -25,10 +26,14 @@ public class EventHomeController {
     private Text myEventsCountLabel;
 
     @FXML
+    private Text helloUser;
+
+    @FXML
     public CardPane MyEventsCardPane;
 
     private UserDao userDao = new UserDao();
     private EventDao eventDao = new EventDao();
+    private AttendanceDao attendanceDao = new AttendanceDao();
 
     @FXML
     private void browsePage(ActionEvent event) throws IOException {
@@ -41,8 +46,12 @@ public class EventHomeController {
     }
 
     @FXML
-    private void settingsPage() {
-        // Add settings logic if required.
+    private void handleSettings(){
+        try {
+            MainApplication.showSettings();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -63,22 +72,29 @@ public class EventHomeController {
 
     @FXML
     public void initialize() {
+        UserDao userDao = new UserDao();
+        String username = userDao.getUserById(UserDao.getCurrentUserId()).getUsername();
         int currentUserId = UserDao.getCurrentUserId();
         if (currentUserId == 0) {
             // Optionally warn or redirect if no user is logged in.
             return;
         }
+        helloUser.setText(username + "!");
         // Retrieve events the user is attending.
         List<Event> myEvents = userDao.getEventsByUserId(currentUserId);
         MyEventsCardPane.getItems().clear();
         for (Event ev : myEvents) {
             VBox eventBox = new VBox(5);
             eventBox.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;");
+            eventBox.setUserData(ev);
             Text eventName = new Text(ev.getName());
             Text eventLocation = new Text("Location: " + ev.getLocation());
             Text eventDate = new Text("Date: " + ev.getEventDate().toString());
             Text eventTime = new Text("Time: " + ev.getStartTime().toString());
-            eventBox.getChildren().addAll(eventName, eventLocation, eventDate, eventTime);
+            Text eventDescription = new Text("Description: " + ev.getDescription());
+            Button cancelAttendanceButton = new Button("Cancel attendance");
+            cancelAttendanceButton.setOnMouseClicked(this::cancelAttendance);
+            eventBox.getChildren().addAll(eventName, eventLocation, eventDate, eventTime, eventDescription, cancelAttendanceButton);
             MyEventsCardPane.getItems().add(eventBox);
         }
         myEventsCountLabel.setText(String.valueOf(myEvents.size()));
@@ -103,6 +119,24 @@ public class EventHomeController {
         }
     }
 
+    // Java
+    @FXML
+    private void cancelAttendance(MouseEvent event) {
+        Button cancelAttendanceButton = (Button) event.getSource();
+        VBox eventBox = (VBox) cancelAttendanceButton.getParent();
+        Event eventToCancel = (Event) eventBox.getUserData(); // Retrieve the Event object from user data
+        if (eventToCancel == null) {
+            System.err.println("Event to cancel is null");
+            return;
+        }
+        try {
+            attendanceDao.cancelAttendance(eventToCancel);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        MyEventsCardPane.getItems().remove(eventBox);
+    }
+
     @FXML
     private void handleLogout() {
         try {
@@ -115,11 +149,27 @@ public class EventHomeController {
 
     @FXML
     private void handleCreateEvent() throws IOException {
-        MainApplication.showCreateEventPage();
+        UserDao userDao = new UserDao();
+        if (userDao.checkIfTeacher(UserDao.getCurrentUserId())){ {
+            MainApplication.showCreateEventPage();
+        }
+        }
+        else {
+            showAlert(Alert.AlertType.ERROR, "Create Event", "You are not authorized to create events.");
+        }
     }
 
     @FXML
     private void homePage() {
         // Implement home page logic if needed.
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

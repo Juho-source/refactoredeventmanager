@@ -21,7 +21,7 @@ public class RegistrationController {
     private UserDao userDao = new UserDao();
 
     @FXML
-    private void handleRegister() {
+    private void handleRegister() throws IOException {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String email = emailField.getText();
@@ -38,6 +38,7 @@ public class RegistrationController {
         boolean registered = userDao.register(firstName, lastName, email, phoneNumber, isTeacher, username, password);
         if (registered) {
             showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "User registered successfully!");
+            MainApplication.showLoginScreen();
         } else {
             showAlert(Alert.AlertType.ERROR, "Registration Failed", "Could not register user.");
         }

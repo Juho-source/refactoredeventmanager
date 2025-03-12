@@ -55,6 +55,15 @@ public class CreateEventController {
         }
     }
 
+    @FXML
+    private void handleSettings(){
+        try {
+            MainApplication.showSettings();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Java
     @FXML
     private void saveEvent() {
