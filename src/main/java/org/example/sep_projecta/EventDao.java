@@ -1,7 +1,9 @@
+// Java
 package org.example.sep_projecta;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import java.util.List;
 
 public class EventDao {
@@ -13,7 +15,7 @@ public class EventDao {
             session.persist(event);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
+            if (transaction != null && transaction.getStatus() == TransactionStatus.ACTIVE) {
                 transaction.rollback();
             }
             e.printStackTrace();
@@ -27,7 +29,7 @@ public class EventDao {
             session.merge(event);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
+            if (transaction != null && transaction.getStatus() == TransactionStatus.ACTIVE) {
                 transaction.rollback();
             }
             e.printStackTrace();
@@ -53,7 +55,7 @@ public class EventDao {
             session.remove(event);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
+            if (transaction != null && transaction.getStatus() == TransactionStatus.ACTIVE) {
                 transaction.rollback();
             }
             e.printStackTrace();
