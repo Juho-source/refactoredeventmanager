@@ -186,7 +186,7 @@ public class EventController {
                         || e.getLocation().toLowerCase().contains(searchText)
                         || e.getDescription().toLowerCase().contains(searchText)))
                 .filter(e -> selectedDate == null || e.getEventDate().equals(selectedDate))
-                .filter(e -> selectedCategories.isEmpty() || selectedCategories.contains(e.getName()))
+                .filter(e -> selectedCategories.isEmpty() || selectedCategories.contains(e.getCategory()))
                 .filter(e -> selectedLocations.isEmpty() || selectedLocations.contains(e.getLocation()))
                 .collect(Collectors.toList());
     }
