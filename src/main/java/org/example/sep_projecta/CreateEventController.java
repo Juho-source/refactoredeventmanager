@@ -55,6 +55,7 @@ public class CreateEventController {
         }
     }
 
+    // Java
     @FXML
     private void saveEvent() {
         String eventName = eventNameField.getText();
@@ -65,9 +66,11 @@ public class CreateEventController {
         String eventDescription = eventDescriptionField.getText();
         LocalDate eventDate = eventDatePicker.getValue();
 
+        int maxAttendance;
+        int attQuantity;
         try {
-            Integer.parseInt(eventMaxAttField.getText());
-            Integer.parseInt(eventAttQuantField.getText());
+            maxAttendance = Integer.parseInt(eventMaxAttField.getText());
+            attQuantity = Integer.parseInt(eventAttQuantField.getText());
         } catch (NumberFormatException nfe) {
             Platform.runLater(() -> {
                 Alert errorMessageAlert = new Alert(Alert.AlertType.ERROR);
@@ -103,9 +106,7 @@ public class CreateEventController {
             return;
         }
 
-        // Combine event date with start time for event creation.
         LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventStartTime);
-
         int creatorId = UserDao.getCurrentUserId();
         if (creatorId == 0) {
             Platform.runLater(() -> {
@@ -118,7 +119,6 @@ public class CreateEventController {
 
         User creator = userDao.getUserById(creatorId);
 
-        // Create a new event and set all required properties including startTime and endTime
         Event event = new Event();
         event.setName(eventName);
         event.setDescription(eventDescription);
@@ -127,10 +127,13 @@ public class CreateEventController {
         event.setStartTime(eventStartTime);
         event.setEndTime(eventEndTime);
         event.setCreatedBy(creator);
+        event.setMaxAttendance(maxAttendance);
+        event.setAttQuantity(attQuantity);
+        // Add the call to set the category field
+        event.setCategory(eventCategory);
 
         eventDao.saveEvent(event);
 
-        // Clear fields after successful saving.
         eventNameField.clear();
         eventStartField.clear();
         eventEndField.clear();

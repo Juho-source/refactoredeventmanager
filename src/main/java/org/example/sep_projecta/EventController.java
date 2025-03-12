@@ -126,7 +126,7 @@ public class EventController {
                     .collect(Collectors.toSet());
         } else if ("category".equals(column)) {
             values = eventList.stream()
-                    .map(Event::getName) // Using event name as placeholder for category
+                    .map(Event::getCategory) // Using category
                     .collect(Collectors.toSet());
         } else {
             values = FXCollections.observableSet();
@@ -155,7 +155,7 @@ public class EventController {
         timeBox.setStyle("-fx-alignment: center;");
         StackPane timePane = new StackPane();
         timePane.setStyle("-fx-background-color: darkgray;-fx-padding: 5;-fx-border-radius: 10;-fx-background-radius: 10;");
-        Text timeText = new Text(event.getStartTime().toString());
+        Text timeText = new Text(event.getStartTime().toString() +"-"+ event.getEndTime().toString());
         timeText.setStyle("-fx-fill: white;");
         timePane.getChildren().add(timeText);
         timeBox.getChildren().add(timePane);
