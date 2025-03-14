@@ -1,4 +1,3 @@
-// File: src/main/java/org/example/sep_projecta/MainApplication.java
 package org.example.sep_projecta;
 
 import javafx.application.Application;
@@ -26,7 +25,7 @@ public class MainApplication extends Application {
     }
     public static void showBrowsePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementbrowsetest.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
         primaryStage.setTitle("Event management home");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -57,7 +56,7 @@ public class MainApplication extends Application {
 
     public static void showHomePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementhome.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
         primaryStage.setTitle("home");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -65,7 +64,7 @@ public class MainApplication extends Application {
 
     public static void showCreateEventPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/CreateEvent.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
         primaryStage.setTitle("Create Event");
         primaryStage.setScene(scene);
         primaryStage.show();

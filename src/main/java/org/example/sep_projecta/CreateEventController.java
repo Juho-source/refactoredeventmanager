@@ -64,6 +64,24 @@ public class CreateEventController {
         }
     }
 
+    @FXML
+    private void homePage() {
+        try {
+            MainApplication.showHomePage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void browsePage() {
+        try {
+            MainApplication.showBrowsePage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Java
     @FXML
     private void saveEvent() {

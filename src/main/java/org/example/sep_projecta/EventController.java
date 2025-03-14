@@ -222,7 +222,7 @@ public class EventController {
     private void homePage(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementhome.fxml"));
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
         stage.setScene(scene);
         stage.setTitle("Event Management Home");
         stage.show();

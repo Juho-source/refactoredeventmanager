@@ -9,11 +9,11 @@
     <children>
         <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" spacing="10.0">
             <children>
-                <Button mnemonicParsing="false" text="Home" HBox.hgrow="NEVER">
+                <Button mnemonicParsing="false" onMousePressed="#homePage" text="Home" HBox.hgrow="NEVER">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin></Button>
-                <Button mnemonicParsing="false" text="Browse">
+                <Button mnemonicParsing="false" text="Browse" onMousePressed="#browsePage">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
