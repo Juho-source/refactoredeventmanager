@@ -4,6 +4,7 @@
 Campus event manager is a JavaFX application built using Maven as the build management tool. It allows teachers to publish events for students to attend to.
 
 To create events, you must have a teacher account. You can create a teacher account by checking the "is teacher" box in the registration screen.
+![class diagram](https://github.com/Juho-source/refactoredeventmanager/blob/main/docs/classdiagram.png?raw=true)
 
 ## Prerequisites
 Before running the application, ensure you have the following installed:
