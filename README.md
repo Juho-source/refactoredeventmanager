@@ -27,7 +27,7 @@ Before running the application, ensure you have the following installed:
    - Create a new database
    - Import the SQL dump file:
      ```sh
-     mysql -u root -p eventmanagement < db/eventmanagementsql.sql
+     mysql -u root -p eventmanagement < eventmanagementsql.sql
      ```
 4. Build the project using Maven:
    ```sh
