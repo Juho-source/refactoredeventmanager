@@ -22,13 +22,19 @@ Before running the application, ensure you have the following installed:
    ```sh
    git checkout demo2
    ```
-
-3. Build the project using Maven:
+3. Set up the database:
+   - Ensure MySQL is running
+   - Create a new database
+   - Import the SQL dump file:
+     ```sh
+     mysql -u root -p eventmanagement < db/eventmanagementsql.sql
+     ```
+4. Build the project using Maven:
    ```sh
    mvn clean install
    ```
 
-4. Run the application:
+5. Run the application:
    ```sh
    mvn javafx:run
    ```
