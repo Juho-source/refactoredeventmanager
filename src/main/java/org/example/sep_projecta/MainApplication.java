@@ -18,11 +18,12 @@ public class MainApplication extends Application {
 
     public static void showLoginScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementlogin.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 450);
         primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     public static void showBrowsePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementbrowsetest.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 787, 527);
@@ -39,16 +40,18 @@ public class MainApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     public static void showSettings() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/settings.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
         primaryStage.setTitle("Settings");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     public static void showChangeInfoPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/changeinfo.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
         primaryStage.setTitle("Change User Info");
         primaryStage.setScene(scene);
         primaryStage.show();

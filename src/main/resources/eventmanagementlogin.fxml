@@ -9,16 +9,21 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.LoginController" stylesheets="@Styles.css">
     <center>
         <VBox alignment="BASELINE_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" fx:id="loginUsernameText"/>
                 <TextField fx:id="usernameField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" fx:id="loginPasswordText"/>
                 <PasswordField fx:id="passwordField" />
                 <Button mnemonicParsing="false" fx:id="loginButton" text="Login" onAction="#handleLogin" defaultButton="true"/>
                 <Button mnemonicParsing="false" fx:id="registerButton" text="Register" onAction="#handleRegister" />
+                <Button text="EN" onAction="#onENClick" />
+                <Button text="UA" onAction="#onUAClick" />
+                <Button text="CN" onAction="#onCNClick" />
+
             </children>
             <BorderPane.margin>
                 <Insets top="10.0" />
@@ -26,7 +31,7 @@
         </VBox>
     </center>
     <top>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Login" BorderPane.alignment="CENTER">
+        <Text  strokeType="OUTSIDE" strokeWidth="0.0" text="Login" fx:id="loginHeaderText" BorderPane.alignment="CENTER">
             <font>
                 <Font size="22.0" />
             </font>

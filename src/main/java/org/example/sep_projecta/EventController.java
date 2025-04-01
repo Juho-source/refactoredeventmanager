@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,35 @@ public class EventController {
     private Menu locationMenu;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private Button settingsButton;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Button browseButton;
+    @FXML
+    private Button homeButton;
+    @FXML
+    private Text eventLabelTop;
+
+
+    ResourceBundle rb;
+
+
+
+    public void setLanguage() {
+        Locale locale = LocaleManager.getInstance().getCurrentLocale();
+        rb = ResourceBundle.getBundle("messages", locale);
+        categoryMenu.setText(rb.getString("categoryMenu"));
+        locationMenu.setText(rb.getString("locationMenu"));
+        settingsButton.setText(rb.getString("settingsButton"));
+        logoutButton.setText(rb.getString("logoutButton"));
+        browseButton.setText(rb.getString("browseButton"));
+        homeButton.setText(rb.getString("homeButton"));
+        eventLabelTop.setText(rb.getString("eventLabelTop"));
+
+    }
+
 
     private List<Event> eventList;
     private ObservableList<MenuItem> categoryMenuItems;
@@ -58,6 +89,7 @@ public class EventController {
 
     @FXML
     public void initialize() {
+        setLanguage();
         // Bind the FlowPane wrap length to the ScrollPane width
         scrollPane.viewportBoundsProperty().addListener((observable, oldValue, newValue) ->
                 eventFlowPane.prefWrapLengthProperty().set(newValue.getWidth())
@@ -152,9 +184,9 @@ public class EventController {
 
         // Use correct getters from Event entity.
         Text nameText = new Text(event.getName());
-        Text locationText = new Text("Location: " + event.getLocation());
-        Text dateText = new Text("Date: " + event.getEventDate().toString());
-        Text descriptionText = new Text("Description: " + event.getDescription());
+        Text locationText = new Text(rb.getString("locationLabelBrowse") + ": " + event.getLocation());
+        Text dateText = new Text(rb.getString("dateLabelBrowse") + ": " + event.getEventDate().toString());
+        Text descriptionText = new Text(rb.getString("descriptionLabelBrowse") + ": " + event.getDescription());
         descriptionText.setWrappingWidth(130);
         TextFlow descriptionFlow = new TextFlow(descriptionText);
 
@@ -163,12 +195,12 @@ public class EventController {
         timeBox.setStyle("-fx-alignment: center;");
         StackPane timePane = new StackPane();
         timePane.setStyle("-fx-background-color: darkgray;-fx-padding: 5;-fx-border-radius: 10;-fx-background-radius: 10;");
-        Text timeText = new Text(event.getStartTime().toString() +"-"+ event.getEndTime().toString());
+        Text timeText = new Text(event.getStartTime().toString() + "-" + event.getEndTime().toString());
         timeText.setStyle("-fx-fill: white;");
         timePane.getChildren().add(timeText);
         timeBox.getChildren().add(timePane);
 
-        Button attendButton = new Button("Attend");
+        Button attendButton = new Button(rb.getString("attendButtonBrowse"));
         attendButton.setId(String.valueOf(event.getEventId()));
         attendButton.setOnMouseClicked(this::attendEvent);
 

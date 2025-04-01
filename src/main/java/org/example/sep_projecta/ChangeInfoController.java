@@ -2,8 +2,12 @@ package org.example.sep_projecta;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.io.IOException;
+import java.util.ResourceBundle;
+import java.util.Locale;
 
 public class ChangeInfoController {
 
@@ -15,11 +19,25 @@ public class ChangeInfoController {
     private TextField emailField;
     @FXML
     private TextField phoneNumberField;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private Label phoneNumberLabel;
+    @FXML
+    private Button saveChangesButton;
+    @FXML
+    private Button backToSettingsButton;
 
     private UserDao userDao = new UserDao();
+    private ResourceBundle rb;
 
     @FXML
     private void initialize() {
+        setLanguage();
         int currentUserId = UserDao.getCurrentUserId();
         if (currentUserId != 0) {
             User currentUser = userDao.getUserById(currentUserId);
@@ -30,6 +48,16 @@ public class ChangeInfoController {
                 phoneNumberField.setText(currentUser.getPhoneNumber());
             }
         }
+    }
+    private void setLanguage() {
+        Locale locale = LocaleManager.getInstance().getCurrentLocale();
+        rb = ResourceBundle.getBundle("messages", locale);
+        firstNameLabel.setText(rb.getString("firstNameLabel"));
+        lastNameLabel.setText(rb.getString("lastNameLabel"));
+        emailLabel.setText(rb.getString("emailLabel"));
+        phoneNumberLabel.setText(rb.getString("phoneNumberLabel"));
+        saveChangesButton.setText(rb.getString("saveChangesButton"));
+        backToSettingsButton.setText(rb.getString("backToSettingsButton"));
     }
 
     @FXML

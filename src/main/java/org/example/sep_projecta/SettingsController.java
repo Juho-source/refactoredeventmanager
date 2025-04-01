@@ -1,17 +1,40 @@
 package org.example.sep_projecta;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
+
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ButtonBar;
 
 public class SettingsController {
 
+    @FXML private Button homeButton;
+    @FXML private Button browseButton;
+    @FXML private Button settingsButton;
+    @FXML private Button logoutButton;
+    @FXML private Button changeInfo;
+    @FXML private Button deleteAccount;
+
     private UserDao userDao = new UserDao();
 
-    // Java
+    ResourceBundle rb;
+
+    public void setLanguage() {
+        Locale locale = LocaleManager.getInstance().getCurrentLocale();
+        rb = ResourceBundle.getBundle("messages", locale);
+        homeButton.setText(rb.getString("homeButton"));
+        browseButton.setText(rb.getString("browseButton"));
+        settingsButton.setText(rb.getString("settingsButton"));
+        logoutButton.setText(rb.getString("logoutButton"));
+        changeInfo.setText(rb.getString("changeInfo"));
+        deleteAccount.setText(rb.getString("deleteAccount"));
+    }
+
     @FXML
     private void handleDeleteAccount() {
         int currentUserId = UserDao.getCurrentUserId();
@@ -47,6 +70,9 @@ public class SettingsController {
                 }
             }
         });
+    }
+    public void initialize() {
+        setLanguage();
     }
 
     @FXML

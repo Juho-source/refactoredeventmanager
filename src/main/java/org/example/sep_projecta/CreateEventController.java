@@ -4,10 +4,14 @@ package org.example.sep_projecta;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class CreateEventController {
     @FXML
@@ -30,12 +34,46 @@ public class CreateEventController {
     private TextField eventDescriptionField;
     @FXML
     private Button saveEventButton;
+    @FXML
+    private Button homeButton;
+    @FXML
+    private Button browseButton;
+    @FXML
+    private Button settingsButton;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Label h1;
+
 
     private EventDao eventDao = new EventDao();
     private UserDao userDao = new UserDao();
 
+    ResourceBundle rb;
+
+
+    public void setLanguage(Locale locale) {
+        LocaleManager.getInstance().setCurrentLocale(locale);
+        rb = ResourceBundle.getBundle("messages", locale);
+        eventNameField.setPromptText(rb.getString("eventNameField"));
+        eventStartField.setPromptText(rb.getString("eventStartField"));
+        eventEndField.setPromptText(rb.getString("eventEndField"));
+        eventCategoryField.setPromptText(rb.getString("eventCategoryField"));
+        eventLocationField.setPromptText(rb.getString("eventLocationField"));
+        eventMaxAttField.setPromptText(rb.getString("eventMaxAttField"));
+        eventAttQuantField.setPromptText(rb.getString("eventAttQuantField"));
+        eventDescriptionField.setPromptText(rb.getString("eventDescriptionField"));
+        saveEventButton.setText(rb.getString("saveEventButton"));
+        homeButton.setText(rb.getString("homeButton"));
+        browseButton.setText(rb.getString("browseButton"));
+        settingsButton.setText(rb.getString("settingsButton"));
+        logoutButton.setText(rb.getString("logoutButton"));
+        h1.setText(rb.getString("h1"));
+    }
+
     @FXML
     private void initialize() {
+        setLanguage(LocaleManager.getInstance().getCurrentLocale());
         saveEventButton.setOnAction(e -> {
             try {
                 saveEvent();

@@ -14,19 +14,19 @@
     <center>
         <VBox alignment="BASELINE_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" fx:id="firstNameText"/>
                 <TextField fx:id="firstNameField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" fx:id="lastNameText"/>
                 <TextField fx:id="lastNameField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" fx:id="emailText" />
                 <TextField fx:id="emailField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" fx:id="phoneNumberText" />
                 <TextField fx:id="phoneNumberField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Teacher" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Teacher" fx:id="isTeacherText" />
                 <CheckBox fx:id="isTeacherCheckBox" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" fx:id="registrationUsernameText"/>
                 <TextField fx:id="usernameField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" fx:id="registrationPasswordText" />
                 <PasswordField fx:id="passwordField" />
                 <Button mnemonicParsing="false" fx:id="registerButton" text="Register" onAction="#handleRegister" defaultButton="true"/>
                 <Button mnemonicParsing="false" fx:id="backToLoginButton" text="Back to Login" onAction="#handleBackToLogin" />
@@ -37,7 +37,7 @@
         </VBox>
     </center>
     <top>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Register" BorderPane.alignment="CENTER">
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Register" fx:id="registerHeaderText" BorderPane.alignment="CENTER">
             <font>
                 <Font size="22.0" />
             </font>

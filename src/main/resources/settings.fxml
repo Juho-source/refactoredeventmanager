@@ -8,22 +8,22 @@
     <children>
         <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" spacing="10.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#handleBackHome" text="Home" HBox.hgrow="NEVER">
+                <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleBackHome" text="Home" HBox.hgrow="NEVER">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#browsePage" text="Browse">
+                <Button fx:id="browseButton" mnemonicParsing="false" onAction="#browsePage" text="Browse">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" text="Settings">
+                <Button fx:id="settingsButton" mnemonicParsing="false" text="Settings">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleLogout" text="Logout">
+                <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogout" text="Logout">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
@@ -33,8 +33,8 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
         </HBox>
-        <Button text="Change User Info" onAction="#handleChangeUserInfo"/>
-        <Button text="Delete Account" onAction="#handleDeleteAccount"/>
+        <Button fx:id="changeInfo" text="Change User Info" onAction="#handleChangeUserInfo"/>
+        <Button fx:id="deleteAccount" text="Delete Account" onAction="#handleDeleteAccount"/>
     </children>
     <padding>
         <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>

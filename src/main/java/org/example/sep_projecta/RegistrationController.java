@@ -5,7 +5,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import java.util.Locale;
+
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class RegistrationController {
     @FXML private TextField firstNameField;
@@ -17,8 +21,37 @@ public class RegistrationController {
     @FXML private TextField passwordField;
     @FXML private Button registerButton;
     @FXML private Button backToLoginButton;
+    @FXML private Text firstNameText;
+    @FXML private Text lastNameText;
+    @FXML private Text emailText;
+    @FXML private Text phoneNumberText;
+    @FXML private Text isTeacherText;
+    @FXML private Text registrationUsernameText;
+    @FXML private Text registrationPasswordText;
+    @FXML private Text registerHeaderText;
 
     private UserDao userDao = new UserDao();
+
+    ResourceBundle rb;
+
+    public void initialize() {
+        setLanguage(LocaleManager.getInstance().getCurrentLocale());
+    }
+
+    public void setLanguage(Locale locale) {
+        LocaleManager.getInstance().setCurrentLocale(locale);
+        rb = ResourceBundle.getBundle("messages", locale);
+        firstNameText.setText(rb.getString("firstNameText"));
+        lastNameText.setText(rb.getString("lastNameText"));
+        emailText.setText(rb.getString("emailText"));
+        phoneNumberText.setText(rb.getString("phoneNumberText"));
+        isTeacherText.setText(rb.getString("isTeacherText"));
+        registrationUsernameText.setText(rb.getString("registrationUsernameText"));
+        registrationPasswordText.setText(rb.getString("registrationPasswordText"));
+        registerHeaderText.setText(rb.getString("registerHeaderText"));
+        registerButton.setText(rb.getString("registerButton"));
+        backToLoginButton.setText(rb.getString("backToLoginButton"));
+    }
 
     @FXML
     private void handleRegister() throws IOException {
