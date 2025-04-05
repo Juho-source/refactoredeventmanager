@@ -78,7 +78,7 @@ public class EventController {
 
     public EventController() {
         try {
-            eventList = eventDao.getAllEvents();
+            eventList = eventDao.getAllEvents(LocaleManager.getInstance().getLanguageCode());
         } catch (Exception e) {
             e.printStackTrace();
             eventList = FXCollections.observableArrayList();

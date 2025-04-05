@@ -42,11 +42,14 @@ public class EventDao {
         }
     }
 
-    public List<Event> getAllEvents() {
+    public List<Event> getAllEvents(String language) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Event", Event.class).list();
+            return session.createQuery("from Event e where e.language = :language", Event.class)
+                    .setParameter("language", language)
+                    .list();
         }
     }
+
 
     public void deleteEvent(Event event) {
         Transaction transaction = null;

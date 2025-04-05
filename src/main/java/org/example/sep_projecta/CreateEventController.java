@@ -183,6 +183,7 @@ public class CreateEventController {
         }
 
         User creator = userDao.getUserById(creatorId);
+        String Language = LocaleManager.getInstance().getLanguageCode();
 
         Event event = new Event();
         event.setName(eventName);
@@ -196,6 +197,7 @@ public class CreateEventController {
         event.setAttQuantity(attQuantity);
         // Add the call to set the category field
         event.setCategory(eventCategory);
+        event.setLanguage(Language);
 
         eventDao.saveEvent(event);
 

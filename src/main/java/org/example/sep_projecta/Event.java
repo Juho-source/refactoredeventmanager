@@ -43,6 +43,9 @@ public class Event {
     @Column(name = "maxAttendance")
     private int maxAttendance;
 
+    @Column(name = "language")
+    private String language;
+
     @ManyToOne
     @JoinColumn(name = "creatorID")
     private User createdBy;
@@ -83,6 +86,10 @@ public class Event {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public void setLanguage(String language) {this.language = language;}
+
+    public String getLanguage() {return language;}
 
     public LocalDate getEventDate() {
         return date;
