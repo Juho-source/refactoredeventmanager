@@ -2,10 +2,21 @@ package org.example.sep_projecta;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.util.Locale;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -25,14 +36,22 @@ public class LoginController {
     @FXML
     public Text loginPasswordText;
     @FXML
-    public Text loginHeaderText;
+    public Label loginPageLabel;
+    @FXML
+    public Label companyNameLabel;
+    @FXML
+    private ImageView languageImageView;
 
     private UserDao userDao = new UserDao();
-
     ResourceBundle rb;
 
     public void initialize() {
         setLanguage(LocaleManager.getInstance().getCurrentLocale());
+
+        languageImageView.setImage(new Image(getClass().getResourceAsStream("/images/globe.png")));
+        languageImageView.setOnMouseClicked((MouseEvent event) -> {
+            showLanguagePopup();
+        });
     }
 
     public void setLanguage(Locale locale) {
@@ -42,7 +61,7 @@ public class LoginController {
         loginPasswordText.setText(rb.getString("loginPasswordText"));
         loginButton.setText(rb.getString("loginButton"));
         registerButton.setText(rb.getString("registerButton"));
-        loginHeaderText.setText(rb.getString("loginHeaderText"));
+        loginPageLabel.setText(rb.getString("loginHeaderText"));
     }
 
     @FXML
@@ -79,6 +98,41 @@ public class LoginController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private void showLanguagePopup() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Select Language");
+
+
+        // Create buttons for languages
+        Button enButton = new Button("EN");
+        enButton.setOnAction((ActionEvent e) -> {
+            onENClick(e);
+            popupStage.close();
+        });
+
+        Button uaButton = new Button("UA");
+        uaButton.setOnAction((ActionEvent e) -> {
+            onUAClick(e);
+            popupStage.close();
+        });
+
+        Button cnButton = new Button("CN");
+        cnButton.setOnAction((ActionEvent e) -> {
+            onCNClick(e);
+            popupStage.close();
+        });
+
+        HBox hbox = new HBox(10);
+        hbox.setPadding(new Insets(20));
+        hbox.getChildren().addAll(enButton, uaButton, cnButton);
+
+        Scene scene = new Scene(hbox);
+        scene.getStylesheets().add(getClass().getResource("/Styles.css").toExternalForm());
+        popupStage.setScene(scene);
+        popupStage.sizeToScene();
+        popupStage.showAndWait();
     }
 
     public void onENClick(ActionEvent actionevent) {
