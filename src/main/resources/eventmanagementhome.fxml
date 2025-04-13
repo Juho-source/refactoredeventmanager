@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.EventHomeController" stylesheets="@Styles.css">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="786.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.EventHomeController">
     <children>
         <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" spacing="10.0">
             <children>
@@ -51,19 +51,22 @@
         </HBox>
         <TabPane prefHeight="477.0" prefWidth="1142.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab fx:id="myEventsTab" text="My Events">
+                <Tab id="myEventsTab" fx:id="myEventsTab" text="My Events">
                     <content>
                         <CardPane fx:id="MyEventsCardPane" prefHeight="685.0" prefWidth="1531.0">
                         </CardPane>
                     </content>
                 </Tab>
-                <Tab fx:id="createdEventsTab" text="Created Events">
+                <Tab id="createdEventsTab" fx:id="createdEventsTab" text="Created Events">
                     <content>
                         <CardPane fx:id="CreatedEventsCardPane">
                         </CardPane>
                     </content>
                 </Tab>
             </tabs>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
         </TabPane>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>

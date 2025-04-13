@@ -114,21 +114,35 @@ public class EventHomeController {
         }
         helloUser.setText(username + "!");
         // Retrieve events the user is attending.
+        // Java
         List<Event> myEvents = userDao.getEventsByUserId(currentUserId);
         MyEventsCardPane.getItems().clear();
         for (Event ev : myEvents) {
-            VBox eventBox = new VBox(5);
-            eventBox.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;");
-            eventBox.setUserData(ev);
-            Text eventName = new Text(ev.getName());
-            Text eventLocation = new Text(rb.getString("locationLabelHome") + ": " + ev.getLocation());
-            Text eventDate = new Text(rb.getString("dateLabelHome") + ": " + ev.getEventDate().toString());
-            Text eventTime = new Text(rb.getString("timeLabelHome") + ": " + ev.getStartTime().toString());
-            Text eventDescription = new Text(rb.getString("descriptionLabelHome") + ": " + ev.getDescription());
-            Button cancelAttendanceButton = new Button(rb.getString("cancelAttendanceButtonHome"));
-            cancelAttendanceButton.setOnMouseClicked(this::cancelAttendance);
-            eventBox.getChildren().addAll(eventName, eventLocation, eventDate, eventTime, eventDescription, cancelAttendanceButton);
-            MyEventsCardPane.getItems().add(eventBox);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EventItem.fxml"));
+                VBox eventBox = loader.load();
+                // Store the Event in the VBox user data
+                eventBox.setUserData(ev);
+                // Lookup the nodes by their fx:id and update their properties
+                Text eventName = (Text) eventBox.lookup("#eventName");
+                Text eventLocation = (Text) eventBox.lookup("#eventLocation");
+                Text eventDate = (Text) eventBox.lookup("#eventDate");
+                Text eventTime = (Text) eventBox.lookup("#eventTime");
+                Text eventDescription = (Text) eventBox.lookup("#eventDescription");
+                Button cancelAttendanceButton = (Button) eventBox.lookup("#cancelAttendanceButton");
+
+                eventName.setText(ev.getName());
+                eventLocation.setText(rb.getString("locationLabelHome") + ": " + ev.getLocation());
+                eventDate.setText(rb.getString("dateLabelHome") + ": " + ev.getEventDate().toString());
+                eventTime.setText(rb.getString("timeLabelHome") + ": " + ev.getStartTime().toString());
+                eventDescription.setText(rb.getString("descriptionLabelHome") + ": " + ev.getDescription());
+                cancelAttendanceButton.setText(rb.getString("cancelAttendanceButtonHome"));
+                cancelAttendanceButton.setOnMouseClicked(this::cancelAttendance);
+
+                MyEventsCardPane.getItems().add(eventBox);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         myEventsCountLabel.setText(String.valueOf(myEvents.size()));
 

@@ -6,7 +6,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/eventmanagement</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.connection.password">secret</property>
 
         <!-- JDBC connection pool settings -->
         <property name="hibernate.c3p0.min_size">5</property>
@@ -24,7 +24,10 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="hibernate.show_sql">true</property>
 
-        <!-- Annotated entity classes -->
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mention all the annotated entity classes -->
         <mapping class="org.example.sep_projecta.User"/>
         <mapping class="org.example.sep_projecta.Event"/>
         <mapping class="org.example.sep_projecta.Attendance"/>

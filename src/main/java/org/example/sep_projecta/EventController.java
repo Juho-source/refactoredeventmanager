@@ -176,11 +176,11 @@ public class EventController {
 
     private StackPane createEventCard(Event event) {
         StackPane cardPane = new StackPane();
-        cardPane.setStyle("-fx-background-color: lightgray;-fx-padding: 10;-fx-border-radius: 10;-fx-background-radius: 10;");
+        cardPane.getStyleClass().add("card-pane");
         cardPane.setPrefSize(150, 100);
 
         VBox vBox = new VBox(5);
-        vBox.setStyle("-fx-alignment: center-left;");
+        vBox.getStyleClass().add("card-vbox");
 
         // Use correct getters from Event entity.
         Text nameText = new Text(event.getName());
@@ -192,11 +192,11 @@ public class EventController {
 
         // Display event time using the startTime field.
         HBox timeBox = new HBox(5);
-        timeBox.setStyle("-fx-alignment: center;");
+        timeBox.getStyleClass().add("time-box");
         StackPane timePane = new StackPane();
-        timePane.setStyle("-fx-background-color: darkgray;-fx-padding: 5;-fx-border-radius: 10;-fx-background-radius: 10;");
+        timePane.getStyleClass().add("time-pane");
         Text timeText = new Text(event.getStartTime().toString() + "-" + event.getEndTime().toString());
-        timeText.setStyle("-fx-fill: white;");
+        timeText.getStyleClass().add("time-text");
         timePane.getChildren().add(timeText);
         timeBox.getChildren().add(timePane);
 

@@ -10,10 +10,12 @@ import java.io.IOException;
 public class MainApplication extends Application {
     private static Stage primaryStage;
 
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         MainApplication.primaryStage = primaryStage;
         showLoginScreen();
+
     }
 
     public static void showLoginScreen() throws IOException {
@@ -77,5 +79,6 @@ public class MainApplication extends Application {
         // Initialize Hibernate instead of the old DatabaseConnector.
         HibernateUtil.getSessionFactory();
         launch();
+
     }
 }

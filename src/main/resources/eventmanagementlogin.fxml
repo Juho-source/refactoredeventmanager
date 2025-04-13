@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.layout.HBox?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.LoginController" stylesheets="@Styles.css">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sep_projecta.LoginController">
     <center>
-        <VBox alignment="BASELINE_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox alignment="BASELINE_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="604.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" fx:id="loginUsernameText"/>
+            <Label fx:id="loginPageLabel" alignment="CENTER" text="Login">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
+                <Text fx:id="loginUsernameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
                 <TextField fx:id="usernameField" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" fx:id="loginPasswordText"/>
+                <Text fx:id="loginPasswordText" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
                 <PasswordField fx:id="passwordField" />
-                <Button mnemonicParsing="false" fx:id="loginButton" text="Login" onAction="#handleLogin" defaultButton="true"/>
-                <Button mnemonicParsing="false" fx:id="registerButton" text="Register" onAction="#handleRegister" />
-                <Button text="EN" onAction="#onENClick" />
-                <Button text="UA" onAction="#onUAClick" />
-                <Button text="CN" onAction="#onCNClick" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#handleLogin" text="Login">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Button>
+                      <Button fx:id="registerButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#handleRegister" text="Register">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+
 
             </children>
             <BorderPane.margin>
@@ -30,14 +45,20 @@
             </BorderPane.margin>
         </VBox>
     </center>
-    <top>
-        <Text  strokeType="OUTSIDE" strokeWidth="0.0" text="Login" fx:id="loginHeaderText" BorderPane.alignment="CENTER">
-            <font>
-                <Font size="22.0" />
-            </font>
-            <BorderPane.margin>
-                <Insets top="10.0" />
-            </BorderPane.margin>
-        </Text>
-    </top>
+   <top>
+      <HBox id="test" alignment="CENTER" prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="companyName" fx:id="companyNameLabel" alignment="TOP_LEFT" text="EventManager">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin></Label>
+             <Region HBox.hgrow="ALWAYS" />
+             <Region HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="languageImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin></ImageView>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
