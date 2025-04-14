@@ -3,10 +3,7 @@ package org.example.sep_projecta;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
@@ -15,44 +12,93 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class for handling event related operations.
+ */
 public class EventController {
+    /**
+     * Flowpane for displaying event cards.
+     */
     @FXML
     private FlowPane eventFlowPane;
+    /**
+     * Textfield for inputting search queries.
+     */
     @FXML
     private TextField searchField;
+    /**
+     * ScrollPane for scrolling through event cards.
+     */
     @FXML
     private ScrollPane scrollPane;
+    /**
+     * Category menu for filtering events by category.
+     */
     @FXML
     private Menu categoryMenu;
+    /**
+     * Location menu for filtering events by location.
+     */
     @FXML
     private Menu locationMenu;
+    /**
+     * DatePicker for selecting event dates.
+     */
     @FXML
     private DatePicker datePicker;
+    /**
+     * Settigns button for navigating to settings.
+     */
     @FXML
     private Button settingsButton;
+    /**
+     * Logout button for logging out of the application.
+     */
     @FXML
     private Button logoutButton;
+    /**
+     * Browse button for navigating to the browse events page.
+     */
     @FXML
     private Button browseButton;
+    /**
+     * Home button for navigating to the home page.
+     */
     @FXML
     private Button homeButton;
+    /**
+     * Label for displaying the event title at the top of the page.
+     */
     @FXML
     private Text eventLabelTop;
 
-
+    /**
+     * Resource bundle for locale-specific texts.
+     */
     ResourceBundle rb;
 
+    /**
+     * Reference to the main application.
+     */
+    private MainApplication mainApp;
 
+    /**
+     * Sets the main application instance.
+     *
+     * @param mainApp the main application instance.
+     */
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
+    /**
+     * Sets the language for UI components using the current locale.
+     */
     public void setLanguage() {
         Locale locale = LocaleManager.getInstance().getCurrentLocale();
         rb = ResourceBundle.getBundle("messages", locale);
@@ -63,22 +109,41 @@ public class EventController {
         browseButton.setText(rb.getString("browseButton"));
         homeButton.setText(rb.getString("homeButton"));
         eventLabelTop.setText(rb.getString("eventLabelTop"));
-
     }
-
-
+    /**
+     * List that stores all events.
+     */
     private List<Event> eventList;
-    private ObservableList<MenuItem> categoryMenuItems;
-    private ObservableList<MenuItem> locationMenuItems;
-    private Stage stage;
+    /**
+     * Observable list of menu items for categories.
+     */
+    private final ObservableList<MenuItem> categoryMenuItems;
+    /**
+     * Observable list of menu items for locations.
+     */
+    private final ObservableList<MenuItem> locationMenuItems;
 
-    private EventDao eventDao = new EventDao();
-    private AttendanceDao attendanceDao = new AttendanceDao();
-    private UserDao userDao = new UserDao();
+    /**
+     * Event data access object for database operations.
+     */
+    private final EventDao eventDao = new EventDao();
+    /**
+     * Attendance data access object for database operations.
+     */
+    private final AttendanceDao attendanceDao = new AttendanceDao();
+    /**
+     * User data access object for database operations.
+     */
+    private final UserDao userDao = new UserDao();
 
+    /**
+     * Constructs a new EventController and initializes.
+     */
     public EventController() {
         try {
-            eventList = eventDao.getAllEvents(LocaleManager.getInstance().getLanguageCode());
+            eventList = eventDao
+                    .getAllEvents(LocaleManager.getInstance()
+                            .getLanguageCode());
         } catch (Exception e) {
             e.printStackTrace();
             eventList = FXCollections.observableArrayList();
@@ -87,11 +152,16 @@ public class EventController {
         locationMenuItems = FXCollections.observableArrayList();
     }
 
+    /**
+     * Initializes the controller, binds UI properties,
+     * and sets up menu items and listeners.
+     */
     @FXML
     public void initialize() {
         setLanguage();
         // Bind the FlowPane wrap length to the ScrollPane width
-        scrollPane.viewportBoundsProperty().addListener((observable, oldValue, newValue) ->
+        scrollPane.viewportBoundsProperty()
+                .addListener((observable, oldValue, newValue) ->
                 eventFlowPane.prefWrapLengthProperty().set(newValue.getWidth())
         );
 
@@ -105,31 +175,45 @@ public class EventController {
         // Add listeners on CheckMenuItems
         categoryMenu.getItems().forEach(item -> {
             if (item instanceof CheckMenuItem) {
-                ((CheckMenuItem) item).selectedProperty().addListener((obs, oldVal, newVal) -> searchEvents());
+                ((CheckMenuItem) item).selectedProperty().addListener(
+                        (obs, oldVal, newVal) -> searchEvents());
             }
         });
         locationMenu.getItems().forEach(item -> {
             if (item instanceof CheckMenuItem) {
-                ((CheckMenuItem) item).selectedProperty().addListener((obs, oldVal, newVal) -> searchEvents());
+                ((CheckMenuItem) item).selectedProperty().addListener(
+                        (obs, oldVal, newVal) -> searchEvents());
             }
         });
 
         // Add event cards
-        eventList.forEach(e -> eventFlowPane.getChildren().add(createEventCard(e)));
+        eventList.forEach(e -> eventFlowPane.getChildren().add(
+                createEventCard(e)));
 
         // Listeners for search and date filter
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> searchEvents());
-        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> searchEvents());
+        searchField.textProperty().addListener(
+                (obs, oldVal, newVal) -> searchEvents());
+        datePicker.valueProperty().addListener(
+                (obs, oldVal, newVal) -> searchEvents());
     }
+
+    /**
+     * Handles the action of navigating to the settings screen.
+     */
     @FXML
-    private void handleSettings(){
+    private void handleSettings() {
         try {
-            MainApplication.showSettings();
+            mainApp.showSettings();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Handles the action of attending an event.
+     *
+     * @param event the mouse event triggering the attendance.
+     */
     @FXML
     private void attendEvent(MouseEvent event) {
         Button attendButton = (Button) event.getSource();
@@ -140,7 +224,8 @@ public class EventController {
                 showAlert(Alert.AlertType.ERROR, "Attendance Error", "No user is currently logged in!");
                 return;
             }
-            User currentUser = userDao.getUserById(currentUserId);
+            UserDTO currentUserDTO = userDao.getUserById(currentUserId);
+            User currentUser = UserMapper.toEntity(currentUserDTO);
             Event attendedEvent = eventDao.getEventById(eventId);
             if (attendedEvent == null) {
                 showAlert(Alert.AlertType.ERROR, "Attendance Error", "Event not found!");
@@ -156,9 +241,19 @@ public class EventController {
         }
     }
 
-    public void populateMenuItems(ObservableList<MenuItem> menuItems, String column) {
-        // Compute distinct values from eventList based on the requested column.
-        // If column is "location", use event location; if "category", use a placeholder since Event has no category field.
+    /**
+     * Populates the provided menu items list with
+     * distinct values from the event list.
+     *
+     * @param menuItems the observable list of menu items to populate.
+     * @param column the column name based on which values are extracted.
+     */
+    public void populateMenuItems(
+            ObservableList<MenuItem> menuItems, String column) {
+        // Compute distinct values from eventList based
+        // on the requested column.
+        // If column is "location", use event location;
+        // if "category", use a placeholder since Event has no category field.
         Set<String> values;
         if ("location".equals(column)) {
             values = eventList.stream()
@@ -174,29 +269,50 @@ public class EventController {
         values.forEach(val -> menuItems.add(new CheckMenuItem(val)));
     }
 
+    /**
+     * Creates a card UI element for the given event.
+     *
+     * @param event the event for which the card is created.
+     * @return a StackPane representing the event card.
+     */
     private StackPane createEventCard(Event event) {
+        final int vBoxv = 5;
+        final int timeBoxv = 5;
+        final int cardWidth = 150;
+        final int cardHeight = 100;
+        final int wrapWidth = 130;
         StackPane cardPane = new StackPane();
-        cardPane.setStyle("-fx-background-color: lightgray;-fx-padding: 10;-fx-border-radius: 10;-fx-background-radius: 10;");
-        cardPane.setPrefSize(150, 100);
+        cardPane.getStyleClass().add("card-pane");
+        cardPane.setPrefSize(cardWidth, cardHeight);
 
-        VBox vBox = new VBox(5);
-        vBox.setStyle("-fx-alignment: center-left;");
+        VBox vBox = new VBox(vBoxv);
+        vBox.getStyleClass().add("card-vbox");
 
         // Use correct getters from Event entity.
         Text nameText = new Text(event.getName());
-        Text locationText = new Text(rb.getString("locationLabelBrowse") + ": " + event.getLocation());
-        Text dateText = new Text(rb.getString("dateLabelBrowse") + ": " + event.getEventDate().toString());
-        Text descriptionText = new Text(rb.getString("descriptionLabelBrowse") + ": " + event.getDescription());
-        descriptionText.setWrappingWidth(130);
+        Text locationText = new Text(
+                rb.getString(
+                        "locationLabelBrowse")
+                        + ": " + event.getLocation());
+        Text dateText = new Text(
+                rb.getString(
+                        "dateLabelBrowse")
+                        + ": " + event.getEventDate(
+                                ).toString());
+        Text descriptionText = new Text(
+                rb.getString(
+                        "descriptionLabelBrowse")
+                        + ": " + event.getDescription());
+        descriptionText.setWrappingWidth(wrapWidth);
         TextFlow descriptionFlow = new TextFlow(descriptionText);
 
         // Display event time using the startTime field.
-        HBox timeBox = new HBox(5);
-        timeBox.setStyle("-fx-alignment: center;");
+        HBox timeBox = new HBox(timeBoxv);
+        timeBox.getStyleClass().add("time-box");
         StackPane timePane = new StackPane();
-        timePane.setStyle("-fx-background-color: darkgray;-fx-padding: 5;-fx-border-radius: 10;-fx-background-radius: 10;");
+        timePane.getStyleClass().add("time-pane");
         Text timeText = new Text(event.getStartTime().toString() + "-" + event.getEndTime().toString());
-        timeText.setStyle("-fx-fill: white;");
+        timeText.getStyleClass().add("time-text");
         timePane.getChildren().add(timeText);
         timeBox.getChildren().add(timePane);
 
@@ -204,20 +320,30 @@ public class EventController {
         attendButton.setId(String.valueOf(event.getEventId()));
         attendButton.setOnMouseClicked(this::attendEvent);
 
-        vBox.getChildren().addAll(nameText, locationText, dateText, descriptionFlow, timeBox, attendButton);
+        vBox.getChildren().addAll(
+                nameText, locationText, dateText, descriptionFlow, timeBox, attendButton);
         cardPane.getChildren().add(vBox);
         return cardPane;
     }
 
+    /**
+     * Filters events based on search text,
+     * selected date, and selected menu items.
+     *
+     * @param searchText the text to search for.
+     * @param selectedDate the selected date filter.
+     * @return a list of filtered events.
+     */
     public List<Event> filterEvents(String searchText, LocalDate selectedDate) {
-        // Filter events by search text, selected date and selected menu items.
         List<String> selectedCategories = categoryMenu.getItems().stream()
-                .filter(item -> item instanceof CheckMenuItem && ((CheckMenuItem) item).isSelected())
+                .filter(item -> item instanceof CheckMenuItem
+                        && ((CheckMenuItem) item).isSelected())
                 .map(MenuItem::getText)
                 .collect(Collectors.toList());
 
         List<String> selectedLocations = locationMenu.getItems().stream()
-                .filter(item -> item instanceof CheckMenuItem && ((CheckMenuItem) item).isSelected())
+                .filter(item -> item instanceof CheckMenuItem
+                        && ((CheckMenuItem) item).isSelected())
                 .map(MenuItem::getText)
                 .collect(Collectors.toList());
 
@@ -231,6 +357,9 @@ public class EventController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Searches for events based on current filter criteria and updates the UI.
+     */
     @FXML
     public void searchEvents() {
         String searchText = searchField.getText().toLowerCase();
@@ -240,26 +369,38 @@ public class EventController {
         filteredEvents.forEach(e -> eventFlowPane.getChildren().add(createEventCard(e)));
     }
 
+    /**
+     * Handles the logout action, navigates to the login screen, and clears the current user.
+     */
     @FXML
     public void handleLogout() {
         try {
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
             UserDao.clearCurrentUser();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Navigates to the home page.
+     */
     @FXML
-    private void homePage(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementhome.fxml"));
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        stage.setScene(scene);
-        stage.setTitle("Event Management Home");
-        stage.show();
+    private void homePage() {
+        try {
+            mainApp.showHomePage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Displays an alert dialog with the provided type, title, and message.
+     *
+     * @param type the type of alert.
+     * @param title the title of the alert.
+     * @param message the content message of the alert.
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -268,14 +409,29 @@ public class EventController {
         alert.showAndWait();
     }
 
+    /**
+     * Retrieves an unmodifiable list of events.
+     *
+     * @return the list of events.
+     */
     public List<Event> getEventList() {
-        return eventList;
+        return Collections.unmodifiableList(eventList);
     }
 
+    /**
+     * Retrieves the observable list of category menu items.
+     *
+     * @return the observable list of category menu items.
+     */
     public ObservableList<MenuItem> getCategoryMenuItems() {
         return categoryMenuItems;
     }
 
+    /**
+     * Retrieves the observable list of location menu items.
+     *
+     * @return the observable list of location menu items.
+     */
     public ObservableList<MenuItem> getLocationMenuItems() {
         return locationMenuItems;
     }

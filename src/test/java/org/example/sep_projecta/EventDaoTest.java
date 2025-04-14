@@ -130,7 +130,7 @@ public class EventDaoTest {
         eventDao.saveEvent(event);
         eventDao.saveEvent(event2);
 
-        List<Event> events = eventDao.getAllEvents();
+        List<Event> events = eventDao.getAllEvents("en");
         assertTrue(events.size() >= 2, "There should be at least two events");
     }
 

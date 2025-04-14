@@ -5,10 +5,22 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+/**
+ * Utility class for managing Hibernate Sessions.
+ */
 public class HibernateUtil {
 
+    /**
+     * The singleton SessionFactory instance.
+     */
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
+    /**
+     * Builds the SessionFactory from hibernate.cfg.xml configuration.
+     *
+     * @return the built SessionFactory.
+     * @throws ExceptionInInitializerError if the SessionFactory creation fails.
+     */
     private static SessionFactory buildSessionFactory() {
         try {
             // Load configuration from hibernate.cfg.xml
@@ -31,10 +43,18 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * Retrieves the singleton SessionFactory.
+     *
+     * @return the SessionFactory.
+     */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * Shuts down the SessionFactory, releasing all resources.
+     */
     public static void shutdown() {
         getSessionFactory().close();
     }
