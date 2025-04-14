@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class EventHomeController {
 
+    private MainApplication mainApp;
+
     private Stage stage;
 
     @FXML private Button homeButton;
@@ -33,7 +35,7 @@ public class EventHomeController {
     @FXML private Button createEventButton;
 
     @FXML
-    public CardPane CreatedEventsCardPane;
+    public CardPane createdEventsCardPane;
 
 
     @FXML
@@ -43,14 +45,16 @@ public class EventHomeController {
     private Text helloUser;
 
     @FXML
-    public CardPane MyEventsCardPane;
+    public CardPane myEventsCardPane;
 
-    private UserDao userDao = new UserDao();
     private EventDao eventDao = new EventDao();
     private AttendanceDao attendanceDao = new AttendanceDao();
 
     ResourceBundle rb;
 
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
 
     public void setLanguage() {
@@ -68,19 +72,18 @@ public class EventHomeController {
     }
 
     @FXML
-    private void browsePage(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementbrowsetest.fxml"));
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setTitle("Event Management Home");
-        stage.show();
+    private void browsePage() {
+        try {
+            mainApp.showBrowsePage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleSettings(){
         try {
-            MainApplication.showSettings();
+            mainApp.showSettings();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -99,7 +102,7 @@ public class EventHomeController {
             ex.printStackTrace();
         }
         // Remove the event box from the CreatedEventsCardPane.
-        CreatedEventsCardPane.getItems().remove(eventBox);
+        createdEventsCardPane.getItems().remove(eventBox);
     }
 
     @FXML
@@ -116,7 +119,7 @@ public class EventHomeController {
         // Retrieve events the user is attending.
         // Java
         List<Event> myEvents = userDao.getEventsByUserId(currentUserId);
-        MyEventsCardPane.getItems().clear();
+        myEventsCardPane.getItems().clear();
         for (Event ev : myEvents) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/EventItem.fxml"));
@@ -139,7 +142,7 @@ public class EventHomeController {
                 cancelAttendanceButton.setText(rb.getString("cancelAttendanceButtonHome"));
                 cancelAttendanceButton.setOnMouseClicked(this::cancelAttendance);
 
-                MyEventsCardPane.getItems().add(eventBox);
+                myEventsCardPane.getItems().add(eventBox);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -148,7 +151,7 @@ public class EventHomeController {
 
         // Retrieve events created by the user.
         List<Event> createdEvents = userDao.getEventsCreatedByUserId(currentUserId);
-        CreatedEventsCardPane.getItems().clear();
+        createdEventsCardPane.getItems().clear();
         for (Event ev : createdEvents) {
             VBox eventBox = new VBox(5);
             eventBox.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;");
@@ -162,7 +165,7 @@ public class EventHomeController {
             Button deleteButton = new Button(rb.getString("deleteEventButtonHome"));
             deleteButton.setOnMouseClicked(this::deleteEvent);
             eventBox.getChildren().addAll(eventName, eventDescription, eventLocation, eventDate, eventTime, deleteButton);
-            CreatedEventsCardPane.getItems().add(eventBox);
+            createdEventsCardPane.getItems().add(eventBox);
         }
     }
 
@@ -181,13 +184,13 @@ public class EventHomeController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        MyEventsCardPane.getItems().remove(eventBox);
+        myEventsCardPane.getItems().remove(eventBox);
     }
 
     @FXML
     private void handleLogout() {
         try {
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
             UserDao.clearCurrentUser();
         } catch (IOException e) {
             e.printStackTrace();
@@ -198,7 +201,7 @@ public class EventHomeController {
     private void handleCreateEvent() throws IOException {
         UserDao userDao = new UserDao();
         if (userDao.checkIfTeacher(UserDao.getCurrentUserId())){ {
-            MainApplication.showCreateEventPage();
+            mainApp.showCreateEventPage();
         }
         }
         else {

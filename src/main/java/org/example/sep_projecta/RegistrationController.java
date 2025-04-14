@@ -31,8 +31,13 @@ public class RegistrationController {
     @FXML private Text registerHeaderText;
 
     private UserDao userDao = new UserDao();
+    private MainApplication mainApp;
 
     ResourceBundle rb;
+
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
     public void initialize() {
         setLanguage(LocaleManager.getInstance().getCurrentLocale());
@@ -71,7 +76,7 @@ public class RegistrationController {
         boolean registered = userDao.register(firstName, lastName, email, phoneNumber, isTeacher, username, password);
         if (registered) {
             showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "User registered successfully!");
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
         } else {
             showAlert(Alert.AlertType.ERROR, "Registration Failed", "Could not register user.");
         }
@@ -80,7 +85,7 @@ public class RegistrationController {
     @FXML
     private void handleBackToLogin() {
         try {
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }

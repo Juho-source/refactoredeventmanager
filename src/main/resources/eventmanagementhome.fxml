@@ -53,13 +53,13 @@
             <tabs>
                 <Tab id="myEventsTab" fx:id="myEventsTab" text="My Events">
                     <content>
-                        <CardPane fx:id="MyEventsCardPane" prefHeight="685.0" prefWidth="1531.0">
+                        <CardPane fx:id="myEventsCardPane" prefHeight="685.0" prefWidth="1531.0">
                         </CardPane>
                     </content>
                 </Tab>
                 <Tab id="createdEventsTab" fx:id="createdEventsTab" text="Created Events">
                     <content>
-                        <CardPane fx:id="CreatedEventsCardPane">
+                        <CardPane fx:id="createdEventsCardPane">
                         </CardPane>
                     </content>
                 </Tab>

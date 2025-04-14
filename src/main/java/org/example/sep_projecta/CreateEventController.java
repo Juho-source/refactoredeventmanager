@@ -45,11 +45,15 @@ public class CreateEventController {
     @FXML
     private Label h1;
 
-
+    private MainApplication mainApp;
     private EventDao eventDao = new EventDao();
     private UserDao userDao = new UserDao();
 
     ResourceBundle rb;
+
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
 
     public void setLanguage(Locale locale) {
@@ -86,7 +90,7 @@ public class CreateEventController {
     @FXML
     private void handleLogout() {
         try {
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
             UserDao.clearCurrentUser();
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +100,7 @@ public class CreateEventController {
     @FXML
     private void handleSettings(){
         try {
-            MainApplication.showSettings();
+            mainApp.showSettings();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +109,7 @@ public class CreateEventController {
     @FXML
     private void homePage() {
         try {
-            MainApplication.showHomePage();
+            mainApp.showHomePage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,7 +118,7 @@ public class CreateEventController {
     @FXML
     private void browsePage() {
         try {
-            MainApplication.showBrowsePage();
+            mainApp.showBrowsePage();
         } catch (IOException e) {
             e.printStackTrace();
         }

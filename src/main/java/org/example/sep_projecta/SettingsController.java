@@ -22,7 +22,13 @@ public class SettingsController {
 
     private UserDao userDao = new UserDao();
 
+    private MainApplication mainApp;
+
     ResourceBundle rb;
+
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
     public void setLanguage() {
         Locale locale = LocaleManager.getInstance().getCurrentLocale();
@@ -60,7 +66,7 @@ public class SettingsController {
                         userDao.deleteUser(user);
                         UserDao.clearCurrentUser();
                         showAlert(Alert.AlertType.INFORMATION, "Delete Account", "Account deleted");
-                        MainApplication.showLoginScreen();
+                        mainApp.showLoginScreen();
                     } else {
                         showAlert(Alert.AlertType.ERROR, "Delete Account", "User not found");
                     }
@@ -78,7 +84,7 @@ public class SettingsController {
     @FXML
     private void handleLogout() {
         try {
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
             UserDao.clearCurrentUser();
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +94,7 @@ public class SettingsController {
     @FXML
     private void handleBackHome() {
         try {
-            MainApplication.showHomePage();
+            mainApp.showHomePage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +103,7 @@ public class SettingsController {
     @FXML
     private void browsePage() {
         try {
-            MainApplication.showBrowsePage();
+            mainApp.showBrowsePage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,7 +111,7 @@ public class SettingsController {
     @FXML
     private void handleChangeUserInfo() {
         try {
-            MainApplication.showChangeInfoPage();
+            mainApp.showChangeInfoPage();
         } catch (IOException e) {
             e.printStackTrace();
         }

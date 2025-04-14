@@ -34,6 +34,11 @@ public class ChangeInfoController {
 
     private UserDao userDao = new UserDao();
     private ResourceBundle rb;
+    private MainApplication mainApp;
+
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
     @FXML
     private void initialize() {
@@ -84,7 +89,7 @@ public class ChangeInfoController {
     @FXML
     private void handleBackToSettings() {
         try {
-            MainApplication.showSettings();
+            mainApp.showSettings();
         } catch (IOException e) {
             e.printStackTrace();
         }

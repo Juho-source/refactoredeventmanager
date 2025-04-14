@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import java.text.MessageFormat;
 
 public class LoginController {
+    private MainApplication mainApp;
     @FXML
     public TextField usernameField;
     @FXML
@@ -44,6 +45,10 @@ public class LoginController {
 
     private UserDao userDao = new UserDao();
     ResourceBundle rb;
+
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
     public void initialize() {
         setLanguage(LocaleManager.getInstance().getCurrentLocale());
@@ -72,7 +77,7 @@ public class LoginController {
         if (userDao.auth(username, password)) {
             showAlert(Alert.AlertType.INFORMATION, "loginSuccessTitle", "loginSuccessMessage", username);
             try {
-                MainApplication.showHomePage();
+                mainApp.showHomePage();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -84,7 +89,7 @@ public class LoginController {
     @FXML
     public void handleRegister() {
         try {
-            MainApplication.showRegistrationScreen();
+            mainApp.showRegistrationScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,75 +2,98 @@ package org.example.sep_projecta;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainApplication extends Application {
-    private static Stage primaryStage;
+    private Stage primaryStage;
+
 
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        MainApplication.primaryStage = primaryStage;
+        this.primaryStage = primaryStage;
         showLoginScreen();
 
     }
 
-    public static void showLoginScreen() throws IOException {
+    public void showLoginScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementlogin.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 450);
+        Parent root = fxmlLoader.load();
+        LoginController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 600, 450);
         primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public static void showBrowsePage() throws IOException {
+    public void showBrowsePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementbrowsetest.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        primaryStage.setTitle("Event management home");
+        Parent root = fxmlLoader.load();
+        EventController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 787, 527);
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
 
-    public static void showRegistrationScreen() throws IOException {
+    public void showRegistrationScreen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementregistration.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
-        primaryStage.setTitle("Register");
+        Parent root = fxmlLoader.load();
+        RegistrationController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 600, 600);
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public static void showSettings() throws IOException {
+    public void showSettings() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/settings.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        primaryStage.setTitle("Settings");
+        Parent root = fxmlLoader.load();
+        SettingsController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 787, 527);
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public static void showChangeInfoPage() throws IOException {
+    public void showChangeInfoPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/changeinfo.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        primaryStage.setTitle("Change User Info");
+        Parent root = fxmlLoader.load();
+        ChangeInfoController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 787, 527);
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public static void showHomePage() throws IOException {
+    public void showHomePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementhome.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        primaryStage.setTitle("home");
+        Parent root = fxmlLoader.load();
+        EventHomeController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 787, 527);
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public static void showCreateEventPage() throws IOException {
+    public void showCreateEventPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/CreateEvent.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        primaryStage.setTitle("Create Event");
+        Parent root = fxmlLoader.load();
+        CreateEventController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+        Scene scene = new Scene(root, 787, 527);
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -6,7 +6,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/eventmanagement</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">secret</property>
+        <property name="hibernate.connection.password">password</property>
 
         <!-- JDBC connection pool settings -->
         <property name="hibernate.c3p0.min_size">5</property>

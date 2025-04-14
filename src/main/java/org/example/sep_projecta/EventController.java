@@ -50,6 +50,11 @@ public class EventController {
 
 
     ResourceBundle rb;
+    private MainApplication mainApp;
+
+    public void setMainApp(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
 
 
 
@@ -124,7 +129,7 @@ public class EventController {
     @FXML
     private void handleSettings(){
         try {
-            MainApplication.showSettings();
+            mainApp.showSettings();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -243,7 +248,7 @@ public class EventController {
     @FXML
     public void handleLogout() {
         try {
-            MainApplication.showLoginScreen();
+            mainApp.showLoginScreen();
             UserDao.clearCurrentUser();
         } catch (IOException e) {
             e.printStackTrace();
@@ -251,13 +256,12 @@ public class EventController {
     }
 
     @FXML
-    private void homePage(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/eventmanagementhome.fxml"));
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 787, 527);
-        stage.setScene(scene);
-        stage.setTitle("Event Management Home");
-        stage.show();
+    private void homePage() {
+        try {
+            mainApp.showHomePage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
