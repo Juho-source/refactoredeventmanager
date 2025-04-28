@@ -145,33 +145,42 @@ public class UserDao {
      */
     public void deleteUser(User user) {
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
+            // Retrieve the persistent user instance from the session
+            User persistentUser = session.get(User.class, user.getUserId());
+            if (persistentUser == null) {
+                System.err.println("User not found in the database.");
+                return;
+            }
+
+            // Delete attendance records associated with the persistent user
             List<Attendance> attendances = session
                     .createQuery("from Attendance where user = :user", Attendance.class)
-                    .setParameter("user", user)
+                    .setParameter("user", persistentUser)
                     .list();
             for (Attendance attendance : attendances) {
                 session.remove(attendance);
             }
+
+            // Update events created by the user
             List<Event> events = session
                     .createQuery("from Event where createdBy = :user", Event.class)
-                    .setParameter("user", user)
+                    .setParameter("user", persistentUser)
                     .list();
             for (Event event : events) {
                 event.setCreatedBy(null);
                 session.update(event);
             }
-            session.remove(user);
+
+            // Remove the persistent user instance
+            session.remove(persistentUser);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            session.close();
         }
     }
 
