@@ -145,7 +145,8 @@ public class UserDao {
      */
     public void deleteUser(User user) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             transaction = session.beginTransaction();
             List<Attendance> attendances = session
                     .createQuery("from Attendance where user = :user", Attendance.class)
@@ -165,8 +166,12 @@ public class UserDao {
             session.remove(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 
