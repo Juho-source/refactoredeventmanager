@@ -305,7 +305,7 @@ public class CreateEventController {
 
         UserDTO creatorDTO = userDao.getUserById(creatorId);
         User creator = UserMapper.toEntity(creatorDTO);
-        String Language = LocaleManager.getInstance().getLanguageCode();
+        String language = LocaleManager.getInstance().getLanguageCode();
 
         Event event = new Event();
         event.setName(eventName);
@@ -318,7 +318,7 @@ public class CreateEventController {
         event.setMaxAttendance(maxAttendance);
         event.setAttQuantity(attQuantity);
         event.setCategory(eventCategory);
-        event.setLanguage(Language);
+        event.setLanguage(language);
 
         eventDao.saveEvent(event);
 

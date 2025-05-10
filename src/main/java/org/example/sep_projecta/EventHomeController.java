@@ -76,7 +76,7 @@ public class EventHomeController {
         try {
             mainApp.showBrowsePage();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new BrowsePageException("Failed to show browse page", e);
         }
     }
 

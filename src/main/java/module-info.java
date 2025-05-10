@@ -6,6 +6,7 @@ module org.example.sep_projecta {
     requires org.hibernate.orm.core;
     requires jakarta.persistence;
     requires java.naming;
+    requires org.slf4j;
 
     opens org.example.sep_projecta to org.hibernate.orm.core, javafx.fxml;
     exports org.example.sep_projecta;

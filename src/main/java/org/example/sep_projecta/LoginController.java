@@ -65,9 +65,8 @@ public class LoginController {
         setLanguage(LocaleManager.getInstance().getCurrentLocale());
 
         languageImageView.setImage(new Image(getClass().getResourceAsStream("/images/globe.png")));
-        languageImageView.setOnMouseClicked((MouseEvent event) -> {
-            showLanguagePopup();
-        });
+        languageImageView.setOnMouseClicked((MouseEvent event) ->
+            showLanguagePopup());
     }
 
     /**

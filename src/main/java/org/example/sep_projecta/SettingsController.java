@@ -1,13 +1,10 @@
 package org.example.sep_projecta;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.Alert;
 
 /**
@@ -15,70 +12,24 @@ import javafx.scene.control.Alert;
  */
 public class SettingsController {
 
-    /**
-     * Button to navigate to the home page.
-     */
     @FXML private Button homeButton;
-
-    /**
-     * Button to navigate to the browse page.
-     */
     @FXML private Button browseButton;
-
-    /**
-     * Button to navigate to the settings page.
-     */
     @FXML private Button settingsButton;
-
-    /**
-     * Button to log out the user.
-     */
     @FXML private Button logoutButton;
-
-    /**
-     * Button to change user information.
-     */
     @FXML private Button changeInfo;
-
-    /**
-     * Button to delete the user account.
-     */
     @FXML private Button deleteAccount;
 
-
-
-    /**
-     * Data access object for user operations.
-     */
-
     private final UserDao userDao = new UserDao();
-
-
-    /**
-     * Main application instance.
-     */
-
-
     private MainApplication mainApp;
-
-    /**
-     * Resource bundle for localization.
-     */
-
     ResourceBundle rb;
 
-    /**
-     * Sets the main application instance.
-     *
-     * @param mainApp the main application instance
-     */
+    // Extracted constant for the repeated "Delete Account" text.
+    private static final String DELETE_ACCOUNT_TITLE = "Delete Account";
+
     public void setMainApp(MainApplication mainApp) {
         this.mainApp = mainApp;
     }
 
-    /**
-     * Sets the language for the UI components based on the current locale.
-     */
     public void setLanguage() {
         Locale locale = LocaleManager.getInstance().getCurrentLocale();
         rb = ResourceBundle.getBundle("messages", locale);
@@ -90,30 +41,21 @@ public class SettingsController {
         deleteAccount.setText(rb.getString("deleteAccount"));
     }
 
-    /**
-     * Handles the action of deleting the user account.
-     */
     @FXML
     private void handleDeleteAccount() {
         int currentUserId = UserDao.getCurrentUserId();
         if (currentUserId == 0) {
-            showAlert(Alert.AlertType.ERROR,
-                    "Delete Account",
-                    "No logged in user");
+            showAlert(Alert.AlertType.ERROR, DELETE_ACCOUNT_TITLE, "No logged in user");
             return;
         }
 
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle(
-                "Delete Account");
+        confirmationAlert.setTitle(DELETE_ACCOUNT_TITLE);
         confirmationAlert.setHeaderText(null);
-        confirmationAlert.setContentText(
-                "Are you sure you want to delete your account?");
+        confirmationAlert.setContentText("Are you sure you want to delete your account?");
 
-        ButtonType yesButton = new ButtonType(
-                "Yes", ButtonBar.ButtonData.YES);
-        ButtonType noButton = new ButtonType(
-                "No", ButtonBar.ButtonData.NO);
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
         confirmationAlert.getButtonTypes().setAll(yesButton, noButton);
 
         confirmationAlert.showAndWait().ifPresent(response -> {
@@ -124,35 +66,23 @@ public class SettingsController {
                     if (user != null) {
                         userDao.deleteUser(user);
                         UserDao.clearCurrentUser();
-                        showAlert(
-                                Alert.AlertType.INFORMATION,
-                                "Delete Account", "Account deleted");
+                        showAlert(Alert.AlertType.INFORMATION, DELETE_ACCOUNT_TITLE, "Account deleted");
                         mainApp.showLoginScreen();
                     } else {
-                        showAlert(
-                                Alert.AlertType.ERROR,
-                                "Delete Account", "User not found");
+                        showAlert(Alert.AlertType.ERROR, DELETE_ACCOUNT_TITLE, "User not found");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showAlert(
-                            Alert.AlertType.ERROR,
-                            "Delete Account", "An error occurred");
+                    showAlert(Alert.AlertType.ERROR, DELETE_ACCOUNT_TITLE, "An error occurred");
                 }
             }
         });
     }
 
-    /**
-     * Initializes the controller and sets the language for the UI components.
-     */
     public void initialize() {
         setLanguage();
     }
 
-    /**
-     * Handles the action of logging out the user.
-     */
     @FXML
     private void handleLogout() {
         try {
@@ -163,9 +93,6 @@ public class SettingsController {
         }
     }
 
-    /**
-     * Handles the action of navigating back to the home page.
-     */
     @FXML
     private void handleBackHome() {
         try {
@@ -175,9 +102,6 @@ public class SettingsController {
         }
     }
 
-    /**
-     * Handles the action of navigating to the browse page.
-     */
     @FXML
     private void browsePage() {
         try {
@@ -187,9 +111,6 @@ public class SettingsController {
         }
     }
 
-    /**
-     * Handles the action of changing user information.
-     */
     @FXML
     private void handleChangeUserInfo() {
         try {
@@ -199,13 +120,6 @@ public class SettingsController {
         }
     }
 
-    /**
-     * Shows an alert dialog with the specified type, title, and message.
-     *
-     * @param type the type of the alert
-     * @param title the title of the alert
-     * @param message the message of the alert
-     */
     private void showAlert(final Alert.AlertType type, final String title, final String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

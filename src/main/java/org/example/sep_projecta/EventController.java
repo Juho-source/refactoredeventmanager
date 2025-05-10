@@ -12,6 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -22,58 +24,30 @@ import java.util.stream.Collectors;
  */
 public class EventController {
     /**
-     * Flowpane for displaying event cards.
+     * Logger for recording errors and important events.
      */
+    private static final Logger logger = LoggerFactory.getLogger(EventController.class);
+
     @FXML
     private FlowPane eventFlowPane;
-    /**
-     * Textfield for inputting search queries.
-     */
     @FXML
     private TextField searchField;
-    /**
-     * ScrollPane for scrolling through event cards.
-     */
     @FXML
     private ScrollPane scrollPane;
-    /**
-     * Category menu for filtering events by category.
-     */
     @FXML
     private Menu categoryMenu;
-    /**
-     * Location menu for filtering events by location.
-     */
     @FXML
     private Menu locationMenu;
-    /**
-     * DatePicker for selecting event dates.
-     */
     @FXML
     private DatePicker datePicker;
-    /**
-     * Settigns button for navigating to settings.
-     */
     @FXML
     private Button settingsButton;
-    /**
-     * Logout button for logging out of the application.
-     */
     @FXML
     private Button logoutButton;
-    /**
-     * Browse button for navigating to the browse events page.
-     */
     @FXML
     private Button browseButton;
-    /**
-     * Home button for navigating to the home page.
-     */
     @FXML
     private Button homeButton;
-    /**
-     * Label for displaying the event title at the top of the page.
-     */
     @FXML
     private Text eventLabelTop;
 
@@ -82,9 +56,6 @@ public class EventController {
      */
     ResourceBundle rb;
 
-    /**
-     * Reference to the main application.
-     */
     private MainApplication mainApp;
 
     /**
@@ -110,42 +81,23 @@ public class EventController {
         homeButton.setText(rb.getString("homeButton"));
         eventLabelTop.setText(rb.getString("eventLabelTop"));
     }
-    /**
-     * List that stores all events.
-     */
+
     private List<Event> eventList;
-    /**
-     * Observable list of menu items for categories.
-     */
     private final ObservableList<MenuItem> categoryMenuItems;
-    /**
-     * Observable list of menu items for locations.
-     */
     private final ObservableList<MenuItem> locationMenuItems;
 
-    /**
-     * Event data access object for database operations.
-     */
     private final EventDao eventDao = new EventDao();
-    /**
-     * Attendance data access object for database operations.
-     */
     private final AttendanceDao attendanceDao = new AttendanceDao();
-    /**
-     * User data access object for database operations.
-     */
     private final UserDao userDao = new UserDao();
 
     /**
-     * Constructs a new EventController and initializes.
+     * Constructs a new EventController and initializes events and menu items.
      */
     public EventController() {
         try {
-            eventList = eventDao
-                    .getAllEvents(LocaleManager.getInstance()
-                            .getLanguageCode());
+            eventList = eventDao.getAllEvents(LocaleManager.getInstance().getLanguageCode());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to load events", e);
             eventList = FXCollections.observableArrayList();
         }
         categoryMenuItems = FXCollections.observableArrayList();
@@ -153,26 +105,18 @@ public class EventController {
     }
 
     /**
-     * Initializes the controller, binds UI properties,
-     * and sets up menu items and listeners.
+     * Initializes the controller, sets language, and configures UI components.
      */
     @FXML
     public void initialize() {
         setLanguage();
-        // Bind the FlowPane wrap length to the ScrollPane width
-        scrollPane.viewportBoundsProperty()
-                .addListener((observable, oldValue, newValue) ->
+        scrollPane.viewportBoundsProperty().addListener((observable, oldValue, newValue) ->
                 eventFlowPane.prefWrapLengthProperty().set(newValue.getWidth())
         );
-
-        // Populate menu items from eventList
         populateMenuItems(categoryMenuItems, "category");
         populateMenuItems(locationMenuItems, "location");
-
         Bindings.bindContent(categoryMenu.getItems(), categoryMenuItems);
         Bindings.bindContent(locationMenu.getItems(), locationMenuItems);
-
-        // Add listeners on CheckMenuItems
         categoryMenu.getItems().forEach(item -> {
             if (item instanceof CheckMenuItem) {
                 ((CheckMenuItem) item).selectedProperty().addListener(
@@ -185,12 +129,7 @@ public class EventController {
                         (obs, oldVal, newVal) -> searchEvents());
             }
         });
-
-        // Add event cards
-        eventList.forEach(e -> eventFlowPane.getChildren().add(
-                createEventCard(e)));
-
-        // Listeners for search and date filter
+        eventList.forEach(e -> eventFlowPane.getChildren().add(createEventCard(e)));
         searchField.textProperty().addListener(
                 (obs, oldVal, newVal) -> searchEvents());
         datePicker.valueProperty().addListener(
@@ -198,7 +137,7 @@ public class EventController {
     }
 
     /**
-     * Handles the action of navigating to the settings screen.
+     * Handles navigation to the settings page.
      */
     @FXML
     private void handleSettings() {
@@ -237,23 +176,17 @@ public class EventController {
             attendanceDao.saveAttendance(attendance);
             showAlert(Alert.AlertType.INFORMATION, "Attendance", "You are now attending the event!");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error when attending event", e);
         }
     }
 
     /**
-     * Populates the provided menu items list with
-     * distinct values from the event list.
+     * Populates the provided menu items list with distinct values from the event list.
      *
      * @param menuItems the observable list of menu items to populate.
-     * @param column the column name based on which values are extracted.
+     * @param column the attribute to extract (category or location).
      */
-    public void populateMenuItems(
-            ObservableList<MenuItem> menuItems, String column) {
-        // Compute distinct values from eventList based
-        // on the requested column.
-        // If column is "location", use event location;
-        // if "category", use a placeholder since Event has no category field.
+    public void populateMenuItems(ObservableList<MenuItem> menuItems, String column) {
         Set<String> values;
         if ("location".equals(column)) {
             values = eventList.stream()
@@ -261,7 +194,7 @@ public class EventController {
                     .collect(Collectors.toSet());
         } else if ("category".equals(column)) {
             values = eventList.stream()
-                    .map(Event::getCategory) // Using category
+                    .map(Event::getCategory)
                     .collect(Collectors.toSet());
         } else {
             values = FXCollections.observableSet();
@@ -288,25 +221,13 @@ public class EventController {
         VBox vBox = new VBox(vBoxv);
         vBox.getStyleClass().add("card-vbox");
 
-        // Use correct getters from Event entity.
         Text nameText = new Text(event.getName());
-        Text locationText = new Text(
-                rb.getString(
-                        "locationLabelBrowse")
-                        + ": " + event.getLocation());
-        Text dateText = new Text(
-                rb.getString(
-                        "dateLabelBrowse")
-                        + ": " + event.getEventDate(
-                                ).toString());
-        Text descriptionText = new Text(
-                rb.getString(
-                        "descriptionLabelBrowse")
-                        + ": " + event.getDescription());
+        Text locationText = new Text(rb.getString("locationLabelBrowse") + ": " + event.getLocation());
+        Text dateText = new Text(rb.getString("dateLabelBrowse") + ": " + event.getEventDate().toString());
+        Text descriptionText = new Text(rb.getString("descriptionLabelBrowse") + ": " + event.getDescription());
         descriptionText.setWrappingWidth(wrapWidth);
         TextFlow descriptionFlow = new TextFlow(descriptionText);
 
-        // Display event time using the startTime field.
         HBox timeBox = new HBox(timeBoxv);
         timeBox.getStyleClass().add("time-box");
         StackPane timePane = new StackPane();
@@ -320,37 +241,34 @@ public class EventController {
         attendButton.setId(String.valueOf(event.getEventId()));
         attendButton.setOnMouseClicked(this::attendEvent);
 
-        vBox.getChildren().addAll(
-                nameText, locationText, dateText, descriptionFlow, timeBox, attendButton);
+        vBox.getChildren().addAll(nameText, locationText, dateText, descriptionFlow, timeBox, attendButton);
         cardPane.getChildren().add(vBox);
         return cardPane;
     }
 
     /**
-     * Filters events based on search text,
-     * selected date, and selected menu items.
+     * Filters events based on search text, selected date, and selected menu items.
      *
-     * @param searchText the text to search for.
-     * @param selectedDate the selected date filter.
+     * @param searchText   the text to search for.
+     * @param selectedDate the date filter.
      * @return a list of filtered events.
      */
     public List<Event> filterEvents(String searchText, LocalDate selectedDate) {
         List<String> selectedCategories = categoryMenu.getItems().stream()
-                .filter(item -> item instanceof CheckMenuItem
-                        && ((CheckMenuItem) item).isSelected())
+                .filter(item -> item instanceof CheckMenuItem && ((CheckMenuItem) item).isSelected())
                 .map(MenuItem::getText)
                 .collect(Collectors.toList());
 
         List<String> selectedLocations = locationMenu.getItems().stream()
-                .filter(item -> item instanceof CheckMenuItem
-                        && ((CheckMenuItem) item).isSelected())
+                .filter(item -> item instanceof CheckMenuItem && ((CheckMenuItem) item).isSelected())
                 .map(MenuItem::getText)
                 .collect(Collectors.toList());
 
         return eventList.stream()
-                .filter(e -> (searchText.isEmpty() || e.getName().toLowerCase().contains(searchText)
-                        || e.getLocation().toLowerCase().contains(searchText)
-                        || e.getDescription().toLowerCase().contains(searchText)))
+                .filter(e -> (searchText.isEmpty() ||
+                        e.getName().toLowerCase().contains(searchText) ||
+                        e.getLocation().toLowerCase().contains(searchText) ||
+                        e.getDescription().toLowerCase().contains(searchText)))
                 .filter(e -> selectedDate == null || e.getEventDate().equals(selectedDate))
                 .filter(e -> selectedCategories.isEmpty() || selectedCategories.contains(e.getCategory()))
                 .filter(e -> selectedLocations.isEmpty() || selectedLocations.contains(e.getLocation()))
@@ -370,7 +288,7 @@ public class EventController {
     }
 
     /**
-     * Handles the logout action, navigates to the login screen, and clears the current user.
+     * Handles the logout action by navigating to the login screen and clearing the current user.
      */
     @FXML
     public void handleLogout() {
@@ -378,7 +296,7 @@ public class EventController {
             mainApp.showLoginScreen();
             UserDao.clearCurrentUser();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error when logging out", e);
         }
     }
 
@@ -390,16 +308,16 @@ public class EventController {
         try {
             mainApp.showHomePage();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error while navigating to home page", e);
         }
     }
 
     /**
      * Displays an alert dialog with the provided type, title, and message.
      *
-     * @param type the type of alert.
-     * @param title the title of the alert.
-     * @param message the content message of the alert.
+     * @param type    the type of alert.
+     * @param title   the title of the alert.
+     * @param message the content message.
      */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
